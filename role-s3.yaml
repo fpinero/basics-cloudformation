@@ -11,11 +11,16 @@ Resources:
         Statement:
           - Effect: 'Allow'
             Principal:
-              Federated: 'arn:aws:iam::<id-de-aws>:oidc-provider/<proveedor-oidc>'
+              Federated: 'arn:aws:iam::935980449691:oidc-provider/code.roche.com'
             Action: 'sts:AssumeRoleWithWebIdentity'
             Condition:
-              StringEquals:
-                '<proveedor-oidc>:sub': 'repo:<repositorio-de-github/gitlab>:ref:refs/heads/<tu-rama>'
+              StringLike: {
+                 "code.roche.com:sub": [
+                    "project_path:ppa/infrastructure/nst_accounts:ref_type:branch:ref:main",
+                    "project_path:ppa/infrastructure/nst_clusters:ref_type:branch:ref:main",
+                    "project_path:ppa/nst/testing/nst_system_testing:*"
+                 ]
+              }
       Policies:
         - PolicyName: 'S3BucketManagementPolicy'
           PolicyDocument:
