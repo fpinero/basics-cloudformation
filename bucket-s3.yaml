@@ -5,7 +5,7 @@ Resources:
   TerraformStateBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: test-bucket-cf-dev
+      BucketName: test-bucket-cf-dev2
       VersioningConfiguration:
         Status: Enabled
 
