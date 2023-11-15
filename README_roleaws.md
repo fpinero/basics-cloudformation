@@ -38,3 +38,23 @@ AWS requiere que especifiques explícitamente esta capacidad para crear o actual
 
 Hay que asegurarse de tener configurado el AWS CLI con las credenciales y la región adecuadas antes de ejecutar este comando. 
 
+## Comprobar que el rol se ha creado correctamente
+
+Este comando devolverá información detallada sobre el rol si existe. Si el rol no existe, 
+recibirás un mensaje de error indicando que el rol no se puede encontrar.
+
+```shell
+aws iam get-role --role-name <nombre-del-rol>>
+
+aws iam get-role --role-name S3BucketManagementRole
+```
+
+Si solo quieres verificar la existencia del rol sin necesidad de toda la información detallada, 
+podemos usar el comando list-roles y filtrar los resultados. Por ejemplo:
+
+```shell
+aws iam list-roles | grep <nombre-del-rol>
+
+aws iam list-roles | grep S3BucketManagementRole
+```
+
