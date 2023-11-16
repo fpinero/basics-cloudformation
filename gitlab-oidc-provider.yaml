@@ -14,4 +14,4 @@ Resources:
 Outputs:
   OIDCProviderArn:
     Description: "ARN of the GitLab OIDC Provider"
-    Value: !Ref GitlabOIDCProvider
+    Value: !GetAtt GitlabOIDCProvider.Arn

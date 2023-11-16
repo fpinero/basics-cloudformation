@@ -14,4 +14,4 @@ Resources:
 Outputs:
   OIDCProviderArn:
     Description: "ARN of the GitHub OIDC Provider"
-    Value: !Ref GithubOIDCProvider
+    Value: !GetAtt GithubOIDCProvider.Arn

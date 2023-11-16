@@ -72,9 +72,38 @@ sed -i "s/thumbprint_a_incluir/$thumbprint/" oidc.yaml
 ```
 (Asegurarse que el valor thumbprint_a_incluir en el comando sed coincide exactamente con el placeholder en la plantilla.)
 
+## Ejecutar el fichero cloudFormation
+
+* para el fichero github-oidc-provider.yaml:
+```shell
+aws cloudformation create-stack --stack-name github-oidc-provider-stack --template-body file://github-oidc-provider.yaml --capabilities CAPABILITY_NAMED_IAM
+```
+
+* para el fichero gitlab-oidc-provider.yaml:
+```shell
+aws cloudformation create-stack --stack-name gitlab-oidc-provider-stack --template-body file://gitlab-oidc-provider.yaml --capabilities CAPABILITY_NAMED_IAM
+```
+
 ## Nombre del OIDC provider en AWS
 
 Es importante mencionar que no se puede asignar un nombre "amigable" o fácilmente reconocible al proveedor OIDC 
 en AWS a través de CloudFormation. <br/>
 La plantilla solo define la configuración del proveedor OIDC, y el nombre o identificador asignado será un ARN 
 generado automáticamente por AWS.
+
+* comando aws cli para obtener el ARN del OIDC provider que AWS ha generado con la plantilla para github:
+```shell
+aws cloudformation describe-stacks --stack-name github-oidc-provider-stack --query "Stacks[0].Outputs[?OutputKey=='OIDCProviderArn'].OutputValue" --output text
+```
+
+* comando aws cli para obtener el ARN del OIDC provider que AWS ha generado con la plantilla para gitlab:
+```shell
+aws cloudformation describe-stacks --stack-name gitlab-oidc-provider-stack --query "Stacks[
+```
+
+## Consideraciones
+
+* AWS no permite tener múltiples proveedores OIDC con la misma URL en la misma cuenta.
+
+![](./only-one-oidc-provider-with-same-url.jpg)
+
