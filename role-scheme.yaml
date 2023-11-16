@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation Template to create an IAM role for S3 bucket management'
+
+Resources:
+  S3BucketManagementRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      RoleName: 'S3BucketManagementRole'
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Federated: 'OIDC_PROVIDER_ARN'
+            Action: 'sts:AssumeRoleWithWebIdentity'
+            Condition:
+              StringLike: {
+                 "OIDC_PROVIDER_DOMAIN:sub": [
+                    "project_path:ppa/infrastructure/nst_accounts:ref_type:branch:ref:main",
+                    "project_path:ppa/infrastructure/nst_clusters:ref_type:branch:ref:main",
+                    "project_path:ppa/nst/testing/nst_system_testing:*"
+                 ]
+              }
+      Policies:
+        - PolicyName: 'S3BucketManagementPolicy'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action:
+                  - 's3:CreateBucket'
+                  - 's3:DeleteBucket'
+                  - 's3:ListBucket'
+                  - 's3:GetBucketLocation'
+                  - 's3:GetObject'
+                  - 's3:PutObject'
+                  - 's3:DeleteObject'
+                Resource: '*'
+
+Outputs:
+  RoleARN:
+    Description: 'ARN of the created IAM Role'
+    Value: !GetAtt S3BucketManagementRole.Arn

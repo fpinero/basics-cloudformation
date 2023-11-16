@@ -98,7 +98,7 @@ aws cloudformation describe-stacks --stack-name github-oidc-provider-stack --que
 
 * comando aws cli para obtener el ARN del OIDC provider que AWS ha generado con la plantilla para gitlab:
 ```shell
-aws cloudformation describe-stacks --stack-name gitlab-oidc-provider-stack --query "Stacks[
+aws cloudformation describe-stacks --stack-name gitlab-oidc-provider-stack --query "Stacks[0].Outputs[?OutputKey=='OIDCProviderArn'].OutputValue" --output text
 ```
 
 ## Consideraciones
