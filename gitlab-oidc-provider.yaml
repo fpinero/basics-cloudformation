@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Template to create an OIDC Provider for GitLab-AWS integration
+
+Resources:
+  GitlabOIDCProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://code.roche.com/
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 8e6588e76ed28d80fd0c103b611a7bb78bfa8f57
+
+Outputs:
+  OIDCProviderArn:
+    Description: "ARN of the GitLab OIDC Provider"
+    Value: !Ref GitlabOIDCProvider

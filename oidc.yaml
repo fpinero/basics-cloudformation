@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Template to create an OIDC Provider for GitHub-AWS integration
+
+Resources:
+  MyOIDCProvider:
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - "thumbprint_a_incluir"  # Reemplaza con el thumbprint correcto
+
+Outputs:
+  OIDCProviderArn:
+    Description: "ARN of the OIDC Provider"
+    Value: !Ref MyOIDCProvider
+
