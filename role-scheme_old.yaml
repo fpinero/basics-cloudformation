@@ -1,11 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'CloudFormation Template to create an IAM role for project-specific management'
+Description: 'CloudFormation Template to create an IAM role for S3 bucket management'
 
 Resources:
-  ProjectManagementRole:
+  S3BucketManagementRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: 'ROLE_NAME_PLACEHOLDER'
+      RoleName: 'S3BucketManagementRole'
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -16,13 +16,13 @@ Resources:
             Condition:
               StringLike: {
                  "OIDC_PROVIDER_DOMAIN:sub": [
-                    "project_path:PROJECT_PATH_1:ref_type:branch:ref:main",
-                    "project_path:PROJECT_PATH_2:ref_type:branch:ref:main",
-                    "project_path:PROJECT_PATH_3:*"
+                    "project_path:ppa/infrastructure/nst_accounts:ref_type:branch:ref:main",
+                    "project_path:ppa/infrastructure/nst_clusters:ref_type:branch:ref:main",
+                    "project_path:ppa/nst/testing/nst_system_testing:*"
                  ]
               }
       Policies:
-        - PolicyName: 'ProjectSpecificManagementPolicy'
+        - PolicyName: 'S3BucketManagementPolicy'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -40,4 +40,4 @@ Resources:
 Outputs:
   RoleARN:
     Description: 'ARN of the created IAM Role'
-    Value: !GetAtt ProjectManagementRole.Arn
+    Value: !GetAtt S3BucketManagementRole.Arn
