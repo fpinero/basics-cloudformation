@@ -1,0 +1,21 @@
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    # Cargar variables de entorno desde el secreto
+    - name: Load .env from secret
+      uses: SpicyPizza/create-envfile@v1
+      with:
+        envkey_DOTENV: ${{ secrets.DOTENV }}
+        file_name: .env
+
+    # Ejemplo de paso que usa la variable de entorno
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: MyS3BucketStack
+        template: bucket-schema_org.yaml
+        parameter-overrides: |
+          BucketName=${{ env.BUCKET_NAME }}

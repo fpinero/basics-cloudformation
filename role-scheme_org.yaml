@@ -14,13 +14,22 @@ Resources:
               Federated: 'OIDC_PROVIDER_ARN'
             Action: 'sts:AssumeRoleWithWebIdentity'
             Condition:
-              StringLike: {
-                 "OIDC_PROVIDER_DOMAIN:sub": [
-                    "project_path:PROJECT_PATH_1:ref_type:branch:ref:main",
-                    "project_path:PROJECT_PATH_2:ref_type:branch:ref:main",
-                    "project_path:PROJECT_PATH_3:*"
-                 ]
-              }
+              StringLike:
+                "OIDC_PROVIDER_DOMAIN:sub": [
+                  "project_path:PROJECT_PATH_1:ref_type:branch:ref:main",
+                  "project_path:PROJECT_PATH_2:ref_type:branch:ref:main",
+                  "project_path:PROJECT_PATH_3:*"
+                ]
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'
+        - 'arn:aws:iam::aws:policy/AmazonEKSClusterPolicy'
+        - 'arn:aws:iam::aws:policy/AmazonEKSServicePolicy'
+        - 'arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy'
+        - 'arn:aws:iam::aws:policy/AmazonRDSFullAccess'
+        - 'arn:aws:iam::aws:policy/AWSCertificateManagerFullAccess'
+        - 'arn:aws:iam::aws:policy/IAMFullAccess'
+        - 'arn:aws:iam::aws:policy/SecretsManagerReadWrite'
+        - 'arn:aws:iam::aws:policy/job-function/SystemAdministrator'
       Policies:
         - PolicyName: 'ProjectSpecificManagementPolicy'
           PolicyDocument:
@@ -36,6 +45,29 @@ Resources:
                   - 's3:PutObject'
                   - 's3:DeleteObject'
                 Resource: '*'
+        - PolicyName: 'ProjectAdminPolicies'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: 'VisualEditor0'
+                Effect: 'Allow'
+                Action:
+                  - 'eks:*'
+                  - 'ec2:*'
+                  - 'ce:*'
+                  - 'sts:DecodeAuthorizationMessage'
+                Resource: '*'
+  FullAccessKMS:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: 'FullAccessKMS'
+      Roles: [ !Ref ProjectManagementRole ]
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Action: 'kms:*'
+            Resource: '*'
 
 Outputs:
   RoleARN:
