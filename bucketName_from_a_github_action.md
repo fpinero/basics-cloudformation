@@ -95,7 +95,7 @@ jobs:
     - name: Load Environment Variables
       run: |
         set -a
-        . ./.env
+        . ./vars.env
         set +a
 
     # Ejemplo de paso que usa la variable de entorno

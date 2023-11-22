@@ -3,4 +3,3 @@ ROLE_NAME=ProjectManagementRoleDelete
 PROJECT_PATH_1=ppa/infrastructure/nst_accounts
 PROJECT_PATH_2=ppa/infrastructure/nst_clusters
 PROJECT_PATH_3=ppa/nst/testing/nst_system_testing
-BUCKET_NAME=s3-bucket-nst-delete

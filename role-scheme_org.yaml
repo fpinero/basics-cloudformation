@@ -44,6 +44,10 @@ Resources:
                   - 's3:GetObject'
                   - 's3:PutObject'
                   - 's3:DeleteObject'
+                  - 'cloudformation:*'
+                  - 's3:PutBucketPolicy',
+                  - 's3:GetBucketPolicy',
+                  - 's3:DeleteBucketPolicy'
                 Resource: '*'
         - PolicyName: 'ProjectAdminPolicies'
           PolicyDocument:
