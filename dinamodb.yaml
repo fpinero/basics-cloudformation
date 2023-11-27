@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'CloudFormation for creating a DynamoDB Table'
+
+Parameters:
+  DynamoDBName:
+    Type: String
+    Description: Name of the DynamoDB
+
+Resources:
+  MiTablaDynamoDB:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref DynamoDBName
+      AttributeDefinitions:
+        - AttributeName: LockID
+          AttributeType: S
+      KeySchema:
+        - AttributeName: LockID
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
